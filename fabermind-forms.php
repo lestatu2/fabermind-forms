@@ -35,9 +35,11 @@ add_action(
 		require_once FABERMIND_FORMS_DIR . '/includes/class-submission.php';
 		require_once FABERMIND_FORMS_DIR . '/includes/class-handlers.php';
 		require_once FABERMIND_FORMS_DIR . '/includes/class-entries.php';
+		require_once FABERMIND_FORMS_DIR . '/includes/class-checkout.php';
 
 		Fabermind_Forms_Settings::init();
 		Fabermind_Forms_Mailster::init();
+		Fabermind_Forms_Checkout::init();
 		Fabermind_Forms_Renderer::init();
 		Fabermind_Forms_Submission::init();
 		Fabermind_Forms_Entries::init();

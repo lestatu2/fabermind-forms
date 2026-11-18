@@ -10,6 +10,31 @@ defined( 'ABSPATH' ) || exit;
 final class Fabermind_Forms_Handlers {
 
 	/**
+	 * Preferenze per la newsletter (voci scelte): salvate nel profilo (se c'e' un account) e passate
+	 * a Mailster come liste con lo stesso nome. Le usano la registrazione e la cassa; con $always
+	 * (casella "newsletter" della cassa) la persona viene iscritta anche senza voci scelte.
+	 *
+	 * @param array<int|string> $term_ids
+	 */
+	public static function preferences( int $user_id, string $email, string $first_name, string $last_name, array $term_ids, bool $always = false ): void {
+		$term_ids = array_values( array_filter( array_map( 'intval', $term_ids ) ) );
+		if ( ! $term_ids && ! $always ) {
+			return;
+		}
+		if ( $user_id && $term_ids ) {
+			update_user_meta( $user_id, 'fabermind_newsletter_terms', $term_ids );
+		}
+		$names_of_lists = array();
+		foreach ( $term_ids as $term_id ) {
+			$term = get_term( $term_id );
+			if ( $term instanceof WP_Term && in_array( $term->taxonomy, Fabermind_Forms_Settings::brand_taxonomies(), true ) ) {
+				$names_of_lists[] = $term->name;
+			}
+		}
+		Fabermind_Forms_Mailster::subscribe( $email, $first_name, $last_name, $names_of_lists, $always );
+	}
+
+	/**
 	 * Registrazione: crea il cliente, gli fa l'accesso, salva le sue preferenze e lo iscrive alle liste Mailster scelte.
 	 *
 	 * @param array<string,mixed> $values
@@ -53,18 +78,7 @@ final class Fabermind_Forms_Handlers {
 		}
 
 		// Preferenze per la newsletter: salvate nel profilo e passate a Mailster.
-		$term_ids = array_map( 'intval', (array) ( $values['brands'] ?? array() ) );
-		if ( $term_ids ) {
-			update_user_meta( $user_id, 'fabermind_newsletter_terms', $term_ids );
-			$names_of_lists = array();
-			foreach ( $term_ids as $term_id ) {
-				$term = get_term( $term_id );
-				if ( $term instanceof WP_Term ) {
-					$names_of_lists[] = $term->name;
-				}
-			}
-			Fabermind_Forms_Mailster::subscribe( $email, $names['first_name'], $names['last_name'], $names_of_lists );
-		}
+		self::preferences( $user_id, $email, $names['first_name'], $names['last_name'], (array) ( $values['brands'] ?? array() ) );
 
 		// Accesso immediato.
 		if ( function_exists( 'wc_set_customer_auth_cookie' ) ) {

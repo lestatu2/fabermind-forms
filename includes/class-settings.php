@@ -28,7 +28,7 @@ final class Fabermind_Forms_Settings {
 	}
 
 	/**
-	 * @return array{contact_email:string,heard_from:string[],brand_taxonomy:string,brand_question:string,sync_lists:bool}
+	 * @return array{contact_email:string,heard_from:string[],brand_taxonomy:string,brand_question:string,sync_lists:bool,checkout_newsletter:bool}
 	 */
 	public static function get(): array {
 		$saved    = get_option( self::OPTION );
@@ -46,6 +46,8 @@ final class Fabermind_Forms_Settings {
 				'brand_question' => __( 'Su cosa desideri ricevere news e offerte?', 'fabermind-forms' ),
 				// Tiene in Mailster una lista per ogni voce di quella classificazione.
 				'sync_lists'     => true,
+				// Alla cassa: casella "Iscriviti alla newsletter" con le preferenze.
+				'checkout_newsletter' => false,
 			)
 		);
 
@@ -55,6 +57,7 @@ final class Fabermind_Forms_Settings {
 			'brand_taxonomy' => (string) ( $saved['brand_taxonomy'] ?? $defaults['brand_taxonomy'] ),
 			'brand_question' => (string) ( $saved['brand_question'] ?? $defaults['brand_question'] ),
 			'sync_lists'     => (bool) ( $saved['sync_lists'] ?? $defaults['sync_lists'] ),
+			'checkout_newsletter' => (bool) ( $saved['checkout_newsletter'] ?? $defaults['checkout_newsletter'] ),
 		);
 	}
 
@@ -90,6 +93,7 @@ final class Fabermind_Forms_Settings {
 						'brand_taxonomy' => sanitize_key( (string) ( $input['brand_taxonomy'] ?? '' ) ),
 						'brand_question' => sanitize_text_field( (string) ( $input['brand_question'] ?? '' ) ),
 						'sync_lists'     => ! empty( $input['sync_lists'] ),
+						'checkout_newsletter' => ! empty( $input['checkout_newsletter'] ),
 					);
 				},
 			)
@@ -133,7 +137,8 @@ final class Fabermind_Forms_Settings {
 							</select>
 							<p class="description"><?php esc_html_e( 'Chi si registra sceglie fra le voci di questa classificazione; viene iscritto alle liste Mailster con lo stesso nome.', 'fabermind-forms' ); ?></p>
 							<p><input type="text" class="large-text" name="<?php echo $name( 'brand_question' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" value="<?php echo esc_attr( $settings['brand_question'] ); ?>" aria-label="<?php esc_attr_e( 'Testo della domanda', 'fabermind-forms' ); ?>"></p>
-							<label><input type="checkbox" name="<?php echo $name( 'sync_lists' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" value="1" <?php checked( $settings['sync_lists'] ); ?>> <?php esc_html_e( 'Crea in Mailster una lista per ogni voce nuova', 'fabermind-forms' ); ?></label>
+							<label><input type="checkbox" name="<?php echo $name( 'sync_lists' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" value="1" <?php checked( $settings['sync_lists'] ); ?>> <?php esc_html_e( 'Crea in Mailster una lista per ogni voce nuova', 'fabermind-forms' ); ?></label><br>
+							<label><input type="checkbox" name="<?php echo $name( 'checkout_newsletter' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" value="1" <?php checked( $settings['checkout_newsletter'] ); ?>> <?php esc_html_e( 'Alla cassa: casella "Iscriviti alla newsletter", con queste preferenze', 'fabermind-forms' ); ?></label>
 							<?php if ( ! Fabermind_Forms_Mailster::available() ) : ?>
 								<p class="description" style="color:#b32d2e"><?php esc_html_e( 'Mailster non è attivo: le preferenze vengono salvate nel profilo del cliente ma nessuno viene iscritto alle liste.', 'fabermind-forms' ); ?></p>
 							<?php endif; ?>

@@ -50,15 +50,17 @@ final class Fabermind_Forms_Mailster {
 	/**
 	 * Iscrive una persona alle liste con questi nomi. Le liste che non esistono vengono saltate.
 	 *
+	 * Con $always la persona diventa iscritta anche se non ha scelto liste (casella "newsletter").
+	 *
 	 * @param string[] $list_names
 	 * @return bool Se l'iscrizione e' andata a buon fine.
 	 */
-	public static function subscribe( string $email, string $first_name, string $last_name, array $list_names ): bool {
-		if ( ! self::available() || ! $list_names ) {
+	public static function subscribe( string $email, string $first_name, string $last_name, array $list_names, bool $always = false ): bool {
+		if ( ! self::available() || ( ! $list_names && ! $always ) ) {
 			return false;
 		}
 		$lists = array_values( array_intersect_key( self::lists_by_name(), array_flip( $list_names ) ) );
-		if ( ! $lists ) {
+		if ( ! $lists && ! $always ) {
 			return false;
 		}
 
@@ -75,7 +77,9 @@ final class Fabermind_Forms_Mailster {
 		if ( is_wp_error( $subscriber_id ) || ! $subscriber_id ) {
 			return false;
 		}
-		mailster( 'subscribers' )->assign_lists( $subscriber_id, $lists );
+		if ( $lists ) {
+			mailster( 'subscribers' )->assign_lists( $subscriber_id, $lists );
+		}
 
 		return true;
 	}

@@ -59,6 +59,18 @@ final class Fabermind_Forms_Renderer {
 	}
 
 	/**
+	 * Un campo disegnato fuori da un modulo nostro (per esempio le preferenze alla cassa).
+	 *
+	 * @param array<string,mixed> $field
+	 */
+	public static function field_html( string $id, string $name, array $field ): string {
+		ob_start();
+		self::field( $id, $name, $field );
+
+		return (string) ob_get_clean();
+	}
+
+	/**
 	 * @param array<string,mixed> $field
 	 */
 	private static function field( string $id, string $name, array $field ): void {
