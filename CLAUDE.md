@@ -59,3 +59,6 @@ Queste regole le ha dettate Fabermind. Vengono prima di qualsiasi abitudine o gu
 - Account nella testata: l'icona apre un pannello laterale da sinistra (accesso, oppure saluto
   e menu dell'area personale); chi non ha fatto l'accesso ha anche l'icona "Registrati", che
   apre il modulo di registrazione in una finestra larga. Come sul sito attuale.
+- Pagina della gift card: non segue il sito attuale (Fabermind l'ha voluta migliore). Importi
+  come pulsanti, passi numerati, consegna "Subito / In una data", anteprima della card con il
+  componente hover-3d di DaisyUI.
