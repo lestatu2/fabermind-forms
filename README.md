@@ -21,6 +21,8 @@ Quando arriva a posto:
 Le preferenze sono le voci di una classificazione scelta nelle impostazioni (per esempio i
 marchi), mostrate con il loro logo. Con l'opzione accesa, ogni voce nuova crea la sua lista
 in Mailster.
+Un tema puo' aggiungere altre classificazioni alle stesse scelte con il filtro
+`fabermind_forms_brand_taxonomies` (elenco di nomi tecnici).
 
 ## Contatti — `[fabermind_form id="contact"]`
 

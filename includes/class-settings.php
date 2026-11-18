@@ -15,6 +15,19 @@ final class Fabermind_Forms_Settings {
 	}
 
 	/**
+	 * Classificazioni delle scelte "ricevi news su...": quella delle impostazioni, piu' altre
+	 * aggiunte da un tema con il filtro (per esempio squadre e marchi insieme).
+	 *
+	 * @return string[]
+	 */
+	public static function brand_taxonomies(): array {
+		$main = self::get()['brand_taxonomy'];
+		$list = (array) apply_filters( 'fabermind_forms_brand_taxonomies', '' !== $main ? array( $main ) : array() );
+
+		return array_values( array_unique( array_filter( array_map( 'strval', $list ), 'taxonomy_exists' ) ) );
+	}
+
+	/**
 	 * @return array{contact_email:string,heard_from:string[],brand_taxonomy:string,brand_question:string,sync_lists:bool}
 	 */
 	public static function get(): array {

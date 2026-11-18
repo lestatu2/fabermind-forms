@@ -65,12 +65,13 @@ final class Fabermind_Forms {
 			);
 		}
 
-		if ( '' !== $settings['brand_taxonomy'] && taxonomy_exists( $settings['brand_taxonomy'] ) ) {
+		$brand_taxonomies = Fabermind_Forms_Settings::brand_taxonomies();
+		if ( $brand_taxonomies ) {
 			$terms = get_terms(
 				(array) apply_filters(
 					'fabermind_forms_brand_terms_args',
 					array(
-						'taxonomy'   => $settings['brand_taxonomy'],
+						'taxonomy'   => $brand_taxonomies,
 						'hide_empty' => false,
 						'orderby'    => 'name',
 					)

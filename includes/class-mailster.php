@@ -25,7 +25,7 @@ final class Fabermind_Forms_Mailster {
 	 */
 	public static function ensure_list( $term_id, $tt_id, $taxonomy ): void {
 		$settings = Fabermind_Forms_Settings::get();
-		if ( ! self::available() || ! $settings['sync_lists'] || '' === $settings['brand_taxonomy'] || $taxonomy !== $settings['brand_taxonomy'] ) {
+		if ( ! self::available() || ! $settings['sync_lists'] || ! in_array( $taxonomy, Fabermind_Forms_Settings::brand_taxonomies(), true ) ) {
 			return;
 		}
 		$term = get_term( (int) $term_id, $taxonomy );
