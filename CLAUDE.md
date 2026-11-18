@@ -73,3 +73,5 @@ Queste regole le ha dettate Fabermind. Vengono prima di qualsiasi abitudine o gu
 - Pagina della gift card: non segue il sito attuale (Fabermind l'ha voluta migliore). Importi
   come pulsanti, passi numerati, consegna "Subito / In una data", anteprima della card con il
   componente hover-3d di DaisyUI.
+- Modifica di massa (e ogni tabella della bacheca): a tutta pagina, nessun limite in altezza.
+  Scorre la pagina, non la tabella. Non si mettono altezze fisse o calcolate "per comodità".
