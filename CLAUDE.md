@@ -35,6 +35,12 @@ Queste regole le ha dettate Fabermind. Vengono prima di qualsiasi abitudine o gu
   struttura, mirati nelle funzioni. Niente plugin con mille opzioni che non servono.
 - Restano di terzi solo WooCommerce, Yoast, Mailster, PayPal e Satispay.
 - Nessuna copia dei modelli di WooCommerce: si usano gli agganci.
+- **Niente costruttori generici** (di campi, di moduli, di filtri) da far usare al cliente:
+  riempiono il sito di cose che nessuno usa. Campi, moduli e filtri sono strutturati e cuciti
+  sul cliente, scritti nel codice. Le modifiche passano da Fabermind: di volta in volta si
+  aggiungono funzioni ai plugin e la loro configurazione.
+- **Ogni funzione in più si può accendere e spegnere** dalle impostazioni del plugin (e da
+  codice, con un filtro): una funzione non deve essere sempre attiva per tutti i clienti.
 - **Quando si rifà un plugin che il sito usa già, si rifà tutto quello che fa.** Claude non
   decide da solo che una funzione "non serve": i plugin devono valere anche per altri
   clienti. "Mirato" vuol dire niente funzioni inventate in più, non funzioni tolte. Prima di
