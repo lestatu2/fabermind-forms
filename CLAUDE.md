@@ -35,6 +35,11 @@ Queste regole le ha dettate Fabermind. Vengono prima di qualsiasi abitudine o gu
   struttura, mirati nelle funzioni. Niente plugin con mille opzioni che non servono.
 - Restano di terzi solo WooCommerce, Yoast, Mailster, PayPal e Satispay.
 - Nessuna copia dei modelli di WooCommerce: si usano gli agganci.
+- **Quando si rifà un plugin che il sito usa già, si rifà tutto quello che fa.** Claude non
+  decide da solo che una funzione "non serve": i plugin devono valere anche per altri
+  clienti. "Mirato" vuol dire niente funzioni inventate in più, non funzioni tolte. Prima di
+  scrivere si elencano le funzioni del plugin di partenza; se una sembra inutile o non si
+  capisce, si chiede a Fabermind. Quello che alla fine resta fuori va dichiarato, con il perché.
 
 ## 4. Indicazioni di design ricevute
 
