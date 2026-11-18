@@ -56,3 +56,6 @@ Queste regole le ha dettate Fabermind. Vengono prima di qualsiasi abitudine o gu
   alla foto al passaggio del mouse.
 - Lista dei desideri: cuore nella testata con il numero di prodotti in lista, che porta alla
   pagina della lista; voce "Lista dei desideri" anche nel menu dell'area personale.
+- Account nella testata: l'icona apre un pannello laterale da sinistra (accesso, oppure saluto
+  e menu dell'area personale); chi non ha fatto l'accesso ha anche l'icona "Registrati", che
+  apre il modulo di registrazione in una finestra larga. Come sul sito attuale.
