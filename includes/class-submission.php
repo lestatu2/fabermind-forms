@@ -65,7 +65,10 @@ final class Fabermind_Forms_Submission {
 			return self::fail( $errors, __( 'Controlla i campi segnati.', 'fabermind-forms' ) );
 		}
 
+		// Prima si registra chi ha scritto e cosa; poi si fa il resto (email, account...).
+		$entry  = Fabermind_Forms_Entries::store( $id, $form, $values );
 		$result = call_user_func( $form['handler'], $values );
+		Fabermind_Forms_Entries::outcome( $entry, is_wp_error( $result ) ? $result->get_error_message() : 'ok' );
 		if ( is_wp_error( $result ) ) {
 			$field = (string) $result->get_error_data();
 

@@ -51,3 +51,13 @@ quando faremo le app serve un indirizzo che lo consegni.
 
 Le classi sono Tailwind e DaisyUI e le compila il tema Fabermind Woo: dopo aver installato o
 aggiornato il plugin va ricompilato il tema.
+
+## Archivio dei messaggi
+
+Ogni invio valido viene registrato prima di tutto il resto (email, account), così non si
+perde nemmeno se l'email non parte. Si vede in bacheca alla voce **Messaggi**: chi ha
+scritto, email, modulo, data, tutto quello che ha compilato, e l'esito se qualcosa non è
+andato. I messaggi nuovi sono in grassetto, con il numero nel menu; da ogni messaggio si
+risponde, si segna da leggere o si elimina. Le password non vengono mai registrate. La
+cancellazione dei dati personali di WordPress (Strumenti > Cancella dati personali) toglie
+anche i messaggi di quella email.
