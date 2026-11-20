@@ -18,6 +18,32 @@ final class Fabermind_Forms_Entries {
 		add_action( 'admin_menu', array( self::class, 'menu' ) );
 		add_action( 'admin_post_fabermind_forms_entry', array( self::class, 'handle' ) );
 		add_filter( 'wp_privacy_personal_data_erasers', array( self::class, 'register_eraser' ) );
+		add_filter( 'fabermind_dashboard_blocks', array( self::class, 'dashboard_block' ) );
+	}
+
+	/**
+	 * Riquadro "Messaggi dai moduli" nel riepilogo del negozio (plugin Fabermind Dashboard, se c'e').
+	 *
+	 * @param array<string,array<string,mixed>> $blocks
+	 * @return array<string,array<string,mixed>>
+	 */
+	public static function dashboard_block( array $blocks ): array {
+		$blocks['forms'] = array(
+			'title' => __( 'Messaggi dai moduli', 'fabermind-forms' ),
+			'type'  => 'counter',
+			'cap'   => 'manage_options', // Chi puo' aprire la pagina dei messaggi.
+			'data'  => static function (): array {
+				$unread = self::unread();
+
+				return array(
+					'value' => $unread,
+					'note'  => __( 'da leggere', 'fabermind-forms' ),
+					'link'  => array( 'label' => __( 'Leggi i messaggi', 'fabermind-forms' ), 'url' => self::url() ),
+				);
+			},
+		);
+
+		return $blocks;
 	}
 
 	private static function table(): string {
