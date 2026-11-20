@@ -75,3 +75,7 @@ Queste regole le ha dettate Fabermind. Vengono prima di qualsiasi abitudine o gu
   componente hover-3d di DaisyUI.
 - Modifica di massa (e ogni tabella della bacheca): a tutta pagina, nessun limite in altezza.
   Scorre la pagina, non la tabella. Non si mettono altezze fisse o calcolate "per comodità".
+- Pagine dei plugin nel backend: Tailwind e DaisyUI con i colori del sito (primary, accent,
+  neutral presi dalle impostazioni del tema), non lo stile predefinito di WordPress ("anni 80").
+  Il foglio di stile compilato va chiuso dentro la pagina del plugin, per non toccare il resto
+  della bacheca. Il riepilogo del negozio prende il posto della bacheca di WordPress.
