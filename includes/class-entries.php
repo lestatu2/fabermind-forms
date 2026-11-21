@@ -16,6 +16,7 @@ final class Fabermind_Forms_Entries {
 	public static function init(): void {
 		self::maybe_install();
 		add_action( 'admin_menu', array( self::class, 'menu' ) );
+		Fabermind_Forms_Ui::for_pages( self::PAGE );
 		add_action( 'admin_post_fabermind_forms_entry', array( self::class, 'handle' ) );
 		add_filter( 'wp_privacy_personal_data_erasers', array( self::class, 'register_eraser' ) );
 		add_filter( 'fabermind_dashboard_blocks', array( self::class, 'dashboard_block' ) );
@@ -200,11 +201,13 @@ final class Fabermind_Forms_Entries {
 				echo '<tr><th>' . esc_html__( 'Esito', 'fabermind-forms' ) . '</th><td style="color:#b32d2e">' . esc_html( $entry->outcome ) . '</td></tr>';
 			}
 			echo '</tbody></table>';
+			echo Fabermind_Forms_Ui::open( 'div', 'flex flex-wrap gap-2 mt-4' ); // phpcs:ignore WordPress.Security.EscapeOutput
 			if ( $entry->email ) {
-				echo '<a class="button button-primary" href="mailto:' . esc_attr( $entry->email ) . '">' . esc_html__( 'Rispondi', 'fabermind-forms' ) . '</a> ';
+				echo '<a class="btn btn-primary btn-sm" href="mailto:' . esc_attr( $entry->email ) . '">' . Fabermind_Forms_Ui::icon( 'reply' ) . esc_html__( 'Rispondi', 'fabermind-forms' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput
 			}
-			echo '<a class="button" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'action' => 'fabermind_forms_entry', 'do' => 'unread', 'entry' => $id ), admin_url( 'admin-post.php' ) ), 'fabermind-forms-entry' ) ) . '">' . esc_html__( 'Segna come da leggere', 'fabermind-forms' ) . '</a> ';
-			echo '<a class="button-link" style="color:#b32d2e;margin-left:12px" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'action' => 'fabermind_forms_entry', 'do' => 'delete', 'entry' => $id ), admin_url( 'admin-post.php' ) ), 'fabermind-forms-entry' ) ) . '">' . esc_html__( 'Elimina', 'fabermind-forms' ) . '</a>';
+			echo '<a class="btn btn-sm" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'action' => 'fabermind_forms_entry', 'do' => 'unread', 'entry' => $id ), admin_url( 'admin-post.php' ) ), 'fabermind-forms-entry' ) ) . '">' . Fabermind_Forms_Ui::icon( 'mail' ) . esc_html__( 'Segna come da leggere', 'fabermind-forms' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput
+			echo '<a class="btn btn-sm btn-ghost text-error" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'action' => 'fabermind_forms_entry', 'do' => 'delete', 'entry' => $id ), admin_url( 'admin-post.php' ) ), 'fabermind-forms-entry' ) ) . '">' . Fabermind_Forms_Ui::icon( 'trash-2' ) . esc_html__( 'Elimina', 'fabermind-forms' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput
+			echo '</div>';
 			echo '</div></div>';
 
 			return;
@@ -235,12 +238,12 @@ final class Fabermind_Forms_Entries {
 		}
 		echo '</tbody></table>';
 		if ( $total > self::PER_PAGE ) {
-			echo '<p>';
+			echo Fabermind_Forms_Ui::open( 'p', 'flex gap-2 mt-4' ); // phpcs:ignore WordPress.Security.EscapeOutput
 			if ( $paged > 1 ) {
-				echo '<a class="button" href="' . esc_url( self::url( array( 'form' => $form, 'paged' => $paged - 1 ) ) ) . '">&larr;</a> ';
+				echo '<a class="btn btn-sm btn-square" aria-label="' . esc_attr__( 'Pagina precedente', 'fabermind-forms' ) . '" href="' . esc_url( self::url( array( 'form' => $form, 'paged' => $paged - 1 ) ) ) . '">' . Fabermind_Forms_Ui::icon( 'chevron-left' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput
 			}
 			if ( $paged * self::PER_PAGE < $total ) {
-				echo '<a class="button" href="' . esc_url( self::url( array( 'form' => $form, 'paged' => $paged + 1 ) ) ) . '">&rarr;</a>';
+				echo '<a class="btn btn-sm btn-square" aria-label="' . esc_attr__( 'Pagina seguente', 'fabermind-forms' ) . '" href="' . esc_url( self::url( array( 'form' => $form, 'paged' => $paged + 1 ) ) ) . '">' . Fabermind_Forms_Ui::icon( 'chevron-right' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput
 			}
 			echo '</p>';
 		}
