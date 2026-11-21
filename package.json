@@ -1,0 +1,17 @@
+{
+  "name": "fabermind-forms",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:css": "tailwindcss -i src/admin.css -o build/admin.raw.css --minify && node scripts/scope.mjs build/admin.raw.css build/admin.css && rm build/admin.raw.css",
+    "icons": "node scripts/icons-php.mjs",
+    "build": "npm run icons && npm run build:css"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.5",
+    "daisyui": "^5.8.1",
+    "lucide-static": "^1.77.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.3.5"
+  }
+}

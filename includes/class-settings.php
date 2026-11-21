@@ -10,6 +10,7 @@ final class Fabermind_Forms_Settings {
 	private const OPTION = 'fabermind_forms';
 
 	public static function init(): void {
+		Fabermind_Forms_Ui::for_pages( 'fabermind-forms' );
 		add_action( 'admin_menu', array( self::class, 'menu' ) );
 		add_action( 'admin_init', array( self::class, 'register' ) );
 	}
@@ -145,7 +146,7 @@ final class Fabermind_Forms_Settings {
 						</td>
 					</tr>
 				</table>
-				<?php submit_button(); ?>
+				<?php echo Fabermind_Forms_Ui::submit(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 			</form>
 		</div>
 		<?php

@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Fabermind Forms
  * Description:       I due moduli che servono a un negozio: registrazione dei clienti (con le preferenze per la newsletter Mailster) e contatti. Nessun costruttore di moduli.
- * Version:           0.2.1
+ * Version:           0.2.2
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Author:            Fabermind
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'FABERMIND_FORMS_VERSION', '0.2.1' );
+define( 'FABERMIND_FORMS_VERSION', '0.2.2' );
 define( 'FABERMIND_FORMS_DIR', __DIR__ );
 define( 'FABERMIND_FORMS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -28,6 +28,7 @@ add_action(
 add_action(
 	'plugins_loaded',
 	static function (): void {
+		require_once FABERMIND_FORMS_DIR . '/includes/class-ui.php';
 		require_once FABERMIND_FORMS_DIR . '/includes/class-settings.php';
 		require_once FABERMIND_FORMS_DIR . '/includes/class-mailster.php';
 		require_once FABERMIND_FORMS_DIR . '/includes/class-forms.php';
