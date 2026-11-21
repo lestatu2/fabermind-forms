@@ -2,7 +2,7 @@
  * Foglio di stile del backend (bottoni e pezzi DaisyUI nelle pagine di WordPress).
  *
  * Tailwind e DaisyUI, come sul sito. Dopo la compilazione scripts/scope.mjs chiude tutto dentro
- * ".fm-admin": cosi' le classi valgono solo nella nostra pagina e non toccano il resto di WordPress
+ * ".fm-ui-forms": cosi' le classi valgono solo nella nostra pagina e non toccano il resto di WordPress
  * (e gli stili di WordPress non rompono i nostri).
  *
  * I colori non si scrivono qui: arrivano come variabili dalle impostazioni del tema

@@ -1,10 +1,12 @@
 <?php
 /**
  * I pezzi di interfaccia del backend: il foglio di stile Tailwind e DaisyUI (src/admin.css,
- * compilato in build/admin.css e chiuso dentro ".fm-admin"), i colori del sito e le icone Lucide.
+ * compilato in build/admin.css e chiuso dentro ".fm-ui-forms"), i colori del sito e le icone Lucide.
  *
  * Le pagine di WordPress restano di WordPress: dentro, i nostri bottoni stanno in un elemento
- * ".fm-admin" (vedi open()), cosi' prendono lo stile di DaisyUI senza toccare il resto.
+ * ".fm-ui-forms" (vedi open()), cosi' prendono lo stile di DaisyUI senza toccare il resto. La classe
+ * e' solo di questo plugin: se un altro plugin mette i suoi bottoni sulla stessa schermata, i due
+ * fogli di stile non si mescolano.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -51,17 +53,17 @@ final class Fabermind_Forms_Ui {
 		return implode( ';', $out );
 	}
 
-	/** Apre l'elemento ".fm-admin" che porta lo stile e i colori (da chiudere con lo stesso tag). */
+	/** Apre l'elemento ".fm-ui-forms" che porta lo stile e i colori (da chiudere con lo stesso tag). */
 	public static function open( string $tag = 'div', string $class = '', array $attrs = array() ): string {
 		$more = '';
 		foreach ( $attrs as $name => $value ) {
 			$more .= ' ' . sanitize_key( $name ) . '="' . esc_attr( (string) $value ) . '"';
 		}
 
-		return '<' . tag_escape( $tag ) . ' class="' . esc_attr( trim( 'fm-admin ' . $class ) ) . '" style="' . esc_attr( self::colors() ) . '"' . $more . '>';
+		return '<' . tag_escape( $tag ) . ' class="' . esc_attr( trim( 'fm-ui-forms ' . $class ) ) . '" style="' . esc_attr( self::colors() ) . '"' . $more . '>';
 	}
 
-	/** Un bottone da solo, dentro il suo ".fm-admin" (per i bottoni sparsi nelle pagine di WordPress). */
+	/** Un bottone da solo, dentro il suo ".fm-ui-forms" (per i bottoni sparsi nelle pagine di WordPress). */
 	public static function button( string $html ): string {
 		return self::open( 'span', 'inline-flex align-middle' ) . $html . '</span>';
 	}

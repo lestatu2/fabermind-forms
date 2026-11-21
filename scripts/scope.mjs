@@ -14,8 +14,10 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import postcss from 'postcss';
 
-const SCOPE = '.fm-admin';
-const [ , , input, output ] = process.argv;
+// La classe che chiude lo stile: ".fm-admin", oppure quella data come terzo argomento (ogni plugin
+// ha la sua, cosi' due plugin sulla stessa schermata non si pestano i piedi).
+const [ , , input, output, scopeArg ] = process.argv;
+const SCOPE = scopeArg || '.fm-admin';
 
 // Selettori che indicano "tutta la pagina": diventano la nostra radice.
 const ROOTS = /(^|[\s>+~,(])(:root|:host|html|body)(?![\w-])/g;
