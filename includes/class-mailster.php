@@ -7,9 +7,66 @@ defined( 'ABSPATH' ) || exit;
 
 final class Fabermind_Forms_Mailster {
 
+	/** Chi ha scelto quali squadre, tenuto da parte per qualche minuto. */
+	private const CACHE = 'fabermind_forms_followers';
+
 	public static function init(): void {
 		add_action( 'created_term', array( self::class, 'ensure_list' ), 10, 3 );
 		add_action( 'edited_term', array( self::class, 'ensure_list' ), 10, 3 );
+		// Per le notifiche dell'app: chi sceglie una squadra per la newsletter la segue.
+		add_filter( 'fabermind_app_newsletter_follows', array( self::class, 'followers' ) );
+	}
+
+	/**
+	 * Chi ha scelto ogni squadra o brand della newsletter (in registrazione, alla cassa, o messo
+	 * nella lista da Mailster). Serve a fabermind-app: chi ha scelto una squadra ne riceve le notifiche.
+	 * Contano solo gli iscritti attivi che sono anche clienti del sito (le notifiche vanno ai clienti).
+	 *
+	 * @param array<string,int[]> $map
+	 * @return array<string,int[]> "classificazione:id" => identificativi dei clienti.
+	 */
+	public static function followers( $map ): array {
+		$map = (array) $map;
+		if ( ! self::available() ) {
+			return $map;
+		}
+		$found = get_transient( self::CACHE );
+		if ( ! is_array( $found ) ) {
+			$found = array();
+			// Le liste hanno il nome della voce (vedi ensure_list).
+			$keys = array();
+			foreach ( (array) get_terms( array( 'taxonomy' => Fabermind_Forms_Settings::brand_taxonomies(), 'hide_empty' => false ) ) as $term ) {
+				if ( $term instanceof WP_Term ) {
+					$keys[ $term->name ][] = $term->taxonomy . ':' . $term->term_id;
+				}
+			}
+			foreach ( self::lists_by_name() as $name => $list_id ) {
+				if ( empty( $keys[ $name ] ) ) {
+					continue;
+				}
+				$users = array();
+				foreach ( (array) mailster( 'subscribers' )->query( array( 'lists' => (string) $list_id, 'fields' => 'all' ) ) as $subscriber ) {
+					$subscriber = (object) $subscriber;
+					$user       = (int) ( $subscriber->wp_id ?? 0 );
+					if ( ! $user && ! empty( $subscriber->email ) ) {
+						$account = get_user_by( 'email', (string) $subscriber->email );
+						$user    = $account ? (int) $account->ID : 0;
+					}
+					if ( $user ) {
+						$users[] = $user;
+					}
+				}
+				foreach ( $keys[ $name ] as $key ) {
+					$found[ $key ] = array_values( array_unique( $users ) );
+				}
+			}
+			set_transient( self::CACHE, $found, 10 * MINUTE_IN_SECONDS );
+		}
+		foreach ( $found as $key => $users ) {
+			$map[ $key ] = array_values( array_unique( array_merge( $map[ $key ] ?? array(), $users ) ) );
+		}
+
+		return $map;
 	}
 
 	public static function available(): bool {
@@ -80,6 +137,7 @@ final class Fabermind_Forms_Mailster {
 		if ( $lists ) {
 			mailster( 'subscribers' )->assign_lists( $subscriber_id, $lists );
 		}
+		delete_transient( self::CACHE );
 
 		return true;
 	}
