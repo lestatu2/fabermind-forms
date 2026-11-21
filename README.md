@@ -63,3 +63,15 @@ andato. I messaggi nuovi sono in grassetto, con il numero nel menu; da ogni mess
 risponde, si segna da leggere o si elimina. Le password non vengono mai registrate. La
 cancellazione dei dati personali di WordPress (Strumenti > Cancella dati personali) toglie
 anche i messaggi di quella email.
+
+## Newsletter per le app
+
+Con "newsletter alla cassa" accesa e Mailster presente:
+
+- `GET wp-json/fabermind-forms/v1/newsletter`: cosa chiedere (`label` della casella,
+  `question` e `options` delle voci) e `subscribed` (il cliente ha già detto sì);
+- alla cassa della Store API (`POST wc/store/v1/checkout`) la scelta viaggia in
+  `extensions["fabermind-forms"] = { "newsletter": true, "terms": [id, ...] }`: vale come la
+  casella della cassa del sito.
+
+Chi dice sì resta segnato nel profilo (`fabermind_newsletter`).

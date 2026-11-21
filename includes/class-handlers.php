@@ -24,6 +24,10 @@ final class Fabermind_Forms_Handlers {
 		if ( $user_id && $term_ids ) {
 			update_user_meta( $user_id, 'fabermind_newsletter_terms', $term_ids );
 		}
+		if ( $user_id ) {
+			// Il cliente ha detto si' alla newsletter: non glielo si richiede a ogni acquisto.
+			update_user_meta( $user_id, 'fabermind_newsletter', 1 );
+		}
 		$names_of_lists = array();
 		foreach ( $term_ids as $term_id ) {
 			$term = get_term( $term_id );
