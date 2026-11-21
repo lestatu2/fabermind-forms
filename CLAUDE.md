@@ -79,3 +79,8 @@ Queste regole le ha dettate Fabermind. Vengono prima di qualsiasi abitudine o gu
   neutral presi dalle impostazioni del tema), non lo stile predefinito di WordPress ("anni 80").
   Il foglio di stile compilato va chiuso dentro la pagina del plugin, per non toccare il resto
   della bacheca. Il riepilogo del negozio prende il posto della bacheca di WordPress.
+- Bottoni del backend: sempre i bottoni di DaisyUI con i colori del sito, anche dentro le pagine
+  di WordPress (scheda prodotto, ordine, categorie, impostazioni). Mai i bottoni di WordPress
+  (button, button-link, submit_button). Le cancellazioni (Togli, Elimina, Svuota) hanno l'icona
+  Lucide del cestino. Ogni plugin chiude il suo stile in una classe sua (.fm-ui-<plugin>), così
+  due plugin sulla stessa schermata non si mescolano.
