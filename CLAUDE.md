@@ -33,7 +33,8 @@ Queste regole le ha dettate Fabermind. Vengono prima di qualsiasi abitudine o gu
 
 - Plugin `fabermind-*`, uno per funzione, riusabili per altri clienti: generici nella
   struttura, mirati nelle funzioni. Niente plugin con mille opzioni che non servono.
-- Restano di terzi solo WooCommerce, Yoast, Mailster, PayPal e Satispay.
+- Restano di terzi solo WooCommerce, Mailster, PayPal e Satispay. Yoast SEO si sostituisce con
+  `fabermind-seo` (deciso il 22/11/2026).
 - Nessuna copia dei modelli di WooCommerce: si usano gli agganci.
 - **Niente costruttori generici** (di campi, di moduli, di filtri) da far usare al cliente:
   riempiono il sito di cose che nessuno usa. Campi, moduli e filtri sono strutturati e cuciti
