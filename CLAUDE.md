@@ -84,3 +84,5 @@ Queste regole le ha dettate Fabermind. Vengono prima di qualsiasi abitudine o gu
   (button, button-link, submit_button). Le cancellazioni (Togli, Elimina, Svuota) hanno l'icona
   Lucide del cestino. Ogni plugin chiude il suo stile in una classe sua (.fm-ui-<plugin>), così
   due plugin sulla stessa schermata non si mescolano.
+- Testi per i clienti (sito, app, email): brevi e con il tono del negozio. Mai frasi che spiegano
+  come funziona il sito o perché una cosa è fatta così (niente testi da progettazione).
