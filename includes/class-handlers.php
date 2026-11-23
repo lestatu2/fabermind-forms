@@ -46,11 +46,11 @@ final class Fabermind_Forms_Handlers {
 	 */
 	public static function register( array $values ) {
 		if ( is_user_logged_in() ) {
-			return new WP_Error( 'fabermind_logged_in', __( 'Hai già fatto l\'accesso con il tuo account.', 'fabermind-forms' ), '' );
+			return new WP_Error( 'fabermind_logged_in', __( 'You are already logged in with your account.', 'fabermind-forms' ), '' );
 		}
 		$email = (string) $values['email'];
 		if ( email_exists( $email ) ) {
-			return new WP_Error( 'fabermind_email_exists', __( 'Esiste già un account con questa email: puoi fare l\'accesso.', 'fabermind-forms' ), 'email' );
+			return new WP_Error( 'fabermind_email_exists', __( 'An account with this email already exists: you can log in.', 'fabermind-forms' ), 'email' );
 		}
 
 		$names = array(
@@ -94,7 +94,7 @@ final class Fabermind_Forms_Handlers {
 		do_action( 'fabermind_forms_registered', $user_id, $values );
 
 		return array(
-			'message'  => __( 'Registrazione completata. Benvenuto!', 'fabermind-forms' ),
+			'message'  => __( 'Registration complete. Welcome!', 'fabermind-forms' ),
 			'redirect' => (string) apply_filters( 'fabermind_forms_register_redirect', function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : home_url( '/' ) ),
 		);
 	}
@@ -110,7 +110,7 @@ final class Fabermind_Forms_Handlers {
 		$name = (string) $values['name'];
 		$body = sprintf(
 			"%s: %s\n%s: %s\n\n%s",
-			__( 'Nome', 'fabermind-forms' ),
+			__( 'Name', 'fabermind-forms' ),
 			$name,
 			__( 'Email', 'fabermind-forms' ),
 			(string) $values['email'],
@@ -120,15 +120,15 @@ final class Fabermind_Forms_Handlers {
 		$sent = wp_mail(
 			Fabermind_Forms_Settings::contact_email(),
 			/* translators: 1: nome del sito, 2: nome di chi scrive */
-			sprintf( __( '[%1$s] Messaggio dal sito: %2$s', 'fabermind-forms' ), $site, $name ),
+			sprintf( __( '[%1$s] Message from the site: %2$s', 'fabermind-forms' ), $site, $name ),
 			$body,
 			// Il nome va fra virgolette e senza caratteri che spezzerebbero l'intestazione.
 			array( 'Reply-To: "' . str_replace( array( '"', "\r", "\n" ), '', $name ) . '" <' . $values['email'] . '>' )
 		);
 		if ( ! $sent ) {
-			return new WP_Error( 'fabermind_mail', __( 'Non siamo riusciti a inviare il messaggio. Riprova tra poco.', 'fabermind-forms' ), '' );
+			return new WP_Error( 'fabermind_mail', __( 'We couldn\'t send the message. Try again shortly.', 'fabermind-forms' ), '' );
 		}
 
-		return array( 'message' => __( 'Messaggio inviato. Ti risponderemo al più presto.', 'fabermind-forms' ) );
+		return array( 'message' => __( 'Message sent. We will reply as soon as possible.', 'fabermind-forms' ) );
 	}
 }

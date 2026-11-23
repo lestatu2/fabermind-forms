@@ -1,0 +1,229 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: fabermind-forms\n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: fabermind-forms\n"
+
+msgid "\"How did you hear about us\": answers"
+msgstr "\"Come ci hai conosciuti\": risposte"
+
+msgid "(no name)"
+msgstr "(senza nome)"
+
+msgid "Account"
+msgstr "Account"
+
+msgid "All"
+msgstr "Tutti"
+
+msgid "All messages"
+msgstr "Tutti i messaggi"
+
+msgid "An account with this email already exists: you can log in."
+msgstr "Esiste già un account con questa email: puoi fare l'accesso."
+
+msgid "At checkout: \"Subscribe to the newsletter\" checkbox, with these preferences"
+msgstr "Alla cassa: casella \"Iscriviti alla newsletter\", con queste preferenze"
+
+msgid "At least %d characters are needed."
+msgstr "Servono almeno %d caratteri."
+
+msgid "At least 8 characters."
+msgstr "Almeno 8 caratteri."
+
+msgid "At most %d characters."
+msgstr "Al massimo %d caratteri."
+
+msgid "Check the highlighted fields."
+msgstr "Controlla i campi segnati."
+
+msgid "Choose one of the options."
+msgstr "Scegli una delle voci."
+
+msgid "Confirm password"
+msgstr "Conferma la password"
+
+msgid "Contact us"
+msgstr "Contattaci"
+
+msgid "Contacts"
+msgstr "Contatti"
+
+msgid "Create a Mailster list for each new item"
+msgstr "Crea in Mailster una lista per ogni voce nuova"
+
+msgid "Delete"
+msgstr "Elimina"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Fabermind forms"
+msgstr "Moduli Fabermind"
+
+msgid "Form"
+msgstr "Modulo"
+
+msgid "Form not found."
+msgstr "Modulo non trovato."
+
+msgid "From"
+msgstr "Da"
+
+msgid "How did you hear about us"
+msgstr "Come ci hai conosciuti"
+
+msgid "I can't send the form. Try again shortly."
+msgstr "Non riesco a inviare il modulo. Riprova tra poco."
+
+msgid "I consent to the processing of my data as described in the <a href=\"%s\" target=\"_blank\" rel=\"noopener\">privacy policy</a>"
+msgstr "Acconsento al trattamento dei miei dati come descritto nella <a href=\"%s\" target=\"_blank\" rel=\"noopener\">privacy policy</a>"
+
+msgid "I consent to the processing of my data by this site"
+msgstr "Acconsento al trattamento dei miei dati da parte di questo sito"
+
+msgid "JavaScript must be enabled in the browser to send the form."
+msgstr "Per inviare il modulo serve JavaScript attivo nel browser."
+
+msgid "Last name"
+msgstr "Cognome"
+
+msgid "Leave this field empty"
+msgstr "Lascia vuoto questo campo"
+
+msgid "Mailster is not active: preferences are saved in the customer profile but nobody is subscribed to the lists."
+msgstr "Mailster non è attivo: le preferenze vengono salvate nel profilo del cliente ma nessuno viene iscritto alle liste."
+
+msgid "Mark as unread"
+msgstr "Segna come da leggere"
+
+msgid "Message"
+msgstr "Messaggio"
+
+msgid "Message not found."
+msgstr "Messaggio non trovato."
+
+msgid "Message sent. We will reply as soon as possible."
+msgstr "Messaggio inviato. Ti risponderemo al più presto."
+
+msgid "Messages"
+msgstr "Messaggi"
+
+msgid "Messages from forms"
+msgstr "Messaggi dai moduli"
+
+msgid "Messages go to"
+msgstr "I messaggi arrivano a"
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "New customers choose among the items of this taxonomy; they are subscribed to the Mailster lists with the same name."
+msgstr "Chi si registra sceglie fra le voci di questa classificazione; viene iscritto alle liste Mailster con lo stesso nome."
+
+msgid "Newsletter preferences"
+msgstr "Preferenze per la newsletter"
+
+msgid "Next page"
+msgstr "Pagina seguente"
+
+msgid "No"
+msgstr "No"
+
+msgid "No messages."
+msgstr "Nessun messaggio."
+
+msgid "One per line. Empty: the question doesn't appear."
+msgstr "Una per riga. Vuoto: la domanda non compare."
+
+msgid "Outcome"
+msgstr "Esito"
+
+msgid "Password"
+msgstr "Password"
+
+msgid "Previous page"
+msgstr "Pagina precedente"
+
+msgid "Question text"
+msgstr "Testo della domanda"
+
+msgid "Read messages"
+msgstr "Leggi i messaggi"
+
+msgid "Received on"
+msgstr "Arrivato il"
+
+msgid "Register"
+msgstr "Registrati"
+
+msgid "Registration"
+msgstr "Registrazione"
+
+msgid "Registration complete. Welcome!"
+msgstr "Registrazione completata. Benvenuto!"
+
+msgid "Reply"
+msgstr "Rispondi"
+
+msgid "Select"
+msgstr "Seleziona"
+
+msgid "Send"
+msgstr "Invia"
+
+msgid "Shortcode: [fabermind_form id=\"register\"] for registration, [fabermind_form id=\"contact\"] for contacts."
+msgstr "Shortcode: [fabermind_form id=\"register\"] per la registrazione, [fabermind_form id=\"contact\"] per i contatti."
+
+msgid "Subscribe"
+msgstr "Iscriviti"
+
+msgid "Subscribe to the newsletter"
+msgstr "Iscriviti alla newsletter"
+
+msgid "Thanks, we have received the form."
+msgstr "Grazie, abbiamo ricevuto il modulo."
+
+msgid "The email address is not valid."
+msgstr "L'indirizzo email non è valido."
+
+msgid "The two passwords don't match."
+msgstr "Le due password non coincidono."
+
+msgid "This field is required."
+msgstr "Questo campo è obbligatorio."
+
+msgid "To continue we need your consent."
+msgstr "Per proseguire serve il tuo consenso."
+
+msgid "Too many submissions in a short time. Try again in a few minutes."
+msgstr "Troppi invii in poco tempo. Riprova fra qualche minuto."
+
+msgid "We couldn't send the message. Try again shortly."
+msgstr "Non siamo riusciti a inviare il messaggio. Riprova tra poco."
+
+msgid "What would you like to receive news and offers about?"
+msgstr "Su cosa desideri ricevere news e offerte?"
+
+msgid "Yes"
+msgstr "Sì"
+
+msgid "You are already logged in with your account."
+msgstr "Hai già fatto l'accesso con il tuo account."
+
+msgid "You don't have permission to do this."
+msgstr "Non hai i permessi per farlo."
+
+msgid "[%1$s] Message from the site: %2$s"
+msgstr "[%1$s] Messaggio dal sito: %2$s"
+
+msgid "unread"
+msgstr "da leggere"
+
+msgid "— Don't ask —"
+msgstr "— Non chiedere —"
+

@@ -28,7 +28,7 @@ final class Fabermind_Forms_Renderer {
 			return '';
 		}
 		if ( ! empty( $form['guests'] ) && is_user_logged_in() ) {
-			return '<p class="alert">' . esc_html__( 'Hai già fatto l\'accesso con il tuo account.', 'fabermind-forms' ) . '</p>';
+			return '<p class="alert">' . esc_html__( 'You are already logged in with your account.', 'fabermind-forms' ) . '</p>';
 		}
 
 		wp_enqueue_script( 'fabermind-forms', FABERMIND_FORMS_URL . 'assets/forms.js', array(), FABERMIND_FORMS_VERSION, array( 'strategy' => 'defer', 'in_footer' => true ) );
@@ -36,14 +36,14 @@ final class Fabermind_Forms_Renderer {
 		$uid = 'fm-' . $id . '-' . wp_unique_id();
 		ob_start();
 		?>
-		<form class="not-prose grid gap-4 sm:grid-cols-2" method="post" novalidate data-fm-form="<?php echo esc_attr( $id ); ?>" data-endpoint="<?php echo esc_url( rest_url( 'fabermind-forms/v1/submit/' . $id ) ); ?>" data-error="<?php esc_attr_e( 'Non riesco a inviare il modulo. Riprova tra poco.', 'fabermind-forms' ); ?>">
+		<form class="not-prose grid gap-4 sm:grid-cols-2" method="post" novalidate data-fm-form="<?php echo esc_attr( $id ); ?>" data-endpoint="<?php echo esc_url( rest_url( 'fabermind-forms/v1/submit/' . $id ) ); ?>" data-error="<?php esc_attr_e( 'I can\'t send the form. Try again shortly.', 'fabermind-forms' ); ?>">
 			<?php foreach ( $form['fields'] as $name => $field ) : ?>
 				<?php self::field( $uid . '-' . $name, (string) $name, $field ); ?>
 			<?php endforeach; ?>
 
 			<?php // Campo trappola: le persone non lo vedono, i programmi automatici lo riempiono. ?>
 			<div class="hidden" aria-hidden="true">
-				<label><?php esc_html_e( 'Lascia vuoto questo campo', 'fabermind-forms' ); ?> <input type="text" name="fm_website" tabindex="-1" autocomplete="off"></label>
+				<label><?php esc_html_e( 'Leave this field empty', 'fabermind-forms' ); ?> <input type="text" name="fm_website" tabindex="-1" autocomplete="off"></label>
 			</div>
 			<input type="hidden" name="fm_stamp" value="<?php echo esc_attr( self::stamp() ); ?>">
 
@@ -51,7 +51,7 @@ final class Fabermind_Forms_Renderer {
 			<div class="sm:col-span-2">
 				<button type="submit" class="btn btn-primary"><?php echo esc_html( (string) $form['button'] ); ?></button>
 			</div>
-			<noscript class="sm:col-span-2"><?php esc_html_e( 'Per inviare il modulo serve JavaScript attivo nel browser.', 'fabermind-forms' ); ?></noscript>
+			<noscript class="sm:col-span-2"><?php esc_html_e( 'JavaScript must be enabled in the browser to send the form.', 'fabermind-forms' ); ?></noscript>
 		</form>
 		<?php
 
@@ -101,7 +101,7 @@ final class Fabermind_Forms_Renderer {
 			if ( 'textarea' === $type ) {
 				echo '<textarea class="textarea min-h-32 w-full" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '"' . $attrs . '></textarea>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			} elseif ( 'select' === $type ) {
-				echo '<select class="select w-full" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '"' . $attrs . '><option value="">' . esc_html__( 'Seleziona', 'fabermind-forms' ) . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo '<select class="select w-full" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '"' . $attrs . '><option value="">' . esc_html__( 'Select', 'fabermind-forms' ) . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				foreach ( (array) $field['options'] as $value => $label ) {
 					echo '<option value="' . esc_attr( (string) $value ) . '">' . esc_html( (string) $label ) . '</option>';
 				}

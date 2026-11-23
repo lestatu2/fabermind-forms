@@ -11,6 +11,9 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// Testi in inglese nel codice; le traduzioni (italiano...) stanno in languages/.
+add_action( 'init', static fn() => load_plugin_textdomain( 'fabermind-forms', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' ), 0 );
+
 define( 'FABERMIND_FORMS_VERSION', '0.2.2' );
 define( 'FABERMIND_FORMS_DIR', __DIR__ );
 define( 'FABERMIND_FORMS_URL', plugin_dir_url( __FILE__ ) );

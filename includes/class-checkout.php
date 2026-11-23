@@ -69,7 +69,7 @@ final class Fabermind_Forms_Checkout {
 
 		return array(
 			'enabled'    => self::on(),
-			'label'      => __( 'Iscriviti alla newsletter', 'fabermind-forms' ),
+			'label'      => __( 'Subscribe to the newsletter', 'fabermind-forms' ),
 			'question'   => (string) ( $choices['label'] ?? '' ),
 			'options'    => $options,
 			// Chi ha gia' detto si' non se lo sente richiedere.
@@ -143,7 +143,7 @@ final class Fabermind_Forms_Checkout {
 		}
 		$choices = self::choices();
 		echo '<div class="fabermind-forms group mt-4">';
-		echo '<label class="label cursor-pointer gap-3 whitespace-normal text-base-content"><input type="checkbox" class="checkbox checkbox-primary checkbox-sm" name="' . esc_attr( self::BOX ) . '" value="1" data-fm-newsletter> <span>' . esc_html__( 'Iscriviti alla newsletter', 'fabermind-forms' ) . '</span></label>';
+		echo '<label class="label cursor-pointer gap-3 whitespace-normal text-base-content"><input type="checkbox" class="checkbox checkbox-primary checkbox-sm" name="' . esc_attr( self::BOX ) . '" value="1" data-fm-newsletter> <span>' . esc_html__( 'Subscribe to the newsletter', 'fabermind-forms' ) . '</span></label>';
 		if ( $choices ) {
 			// Le preferenze compaiono solo con la casella spuntata.
 			echo '<div class="mt-3 hidden group-has-[[data-fm-newsletter]:checked]:block">' . Fabermind_Forms_Renderer::field_html( 'fm-checkout-terms', self::FIELD, $choices ) . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

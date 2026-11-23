@@ -40,8 +40,8 @@ final class Fabermind_Forms {
 
 		return $url
 			/* translators: %s: indirizzo della pagina della privacy */
-			? sprintf( __( 'Acconsento al trattamento dei miei dati come descritto nella <a href="%s" target="_blank" rel="noopener">privacy policy</a>', 'fabermind-forms' ), esc_url( $url ) )
-			: __( 'Acconsento al trattamento dei miei dati da parte di questo sito', 'fabermind-forms' );
+			? sprintf( __( 'I consent to the processing of my data as described in the <a href="%s" target="_blank" rel="noopener">privacy policy</a>', 'fabermind-forms' ), esc_url( $url ) )
+			: __( 'I consent to the processing of my data by this site', 'fabermind-forms' );
 	}
 
 	/**
@@ -50,17 +50,17 @@ final class Fabermind_Forms {
 	private static function register_form(): array {
 		$settings = Fabermind_Forms_Settings::get();
 		$fields   = array(
-			'first_name' => array( 'type' => 'text', 'label' => __( 'Nome', 'fabermind-forms' ), 'required' => true, 'autocomplete' => 'given-name', 'width' => 'half' ),
-			'last_name'  => array( 'type' => 'text', 'label' => __( 'Cognome', 'fabermind-forms' ), 'required' => true, 'autocomplete' => 'family-name', 'width' => 'half' ),
+			'first_name' => array( 'type' => 'text', 'label' => __( 'Name', 'fabermind-forms' ), 'required' => true, 'autocomplete' => 'given-name', 'width' => 'half' ),
+			'last_name'  => array( 'type' => 'text', 'label' => __( 'Last name', 'fabermind-forms' ), 'required' => true, 'autocomplete' => 'family-name', 'width' => 'half' ),
 			'email'      => array( 'type' => 'email', 'label' => __( 'Email', 'fabermind-forms' ), 'required' => true, 'autocomplete' => 'email' ),
-			'password'   => array( 'type' => 'password', 'label' => __( 'Password', 'fabermind-forms' ), 'required' => true, 'autocomplete' => 'new-password', 'width' => 'half', 'min' => 8, 'help' => __( 'Almeno 8 caratteri.', 'fabermind-forms' ) ),
-			'password_2' => array( 'type' => 'password', 'label' => __( 'Conferma la password', 'fabermind-forms' ), 'required' => true, 'autocomplete' => 'new-password', 'width' => 'half', 'same_as' => 'password' ),
+			'password'   => array( 'type' => 'password', 'label' => __( 'Password', 'fabermind-forms' ), 'required' => true, 'autocomplete' => 'new-password', 'width' => 'half', 'min' => 8, 'help' => __( 'At least 8 characters.', 'fabermind-forms' ) ),
+			'password_2' => array( 'type' => 'password', 'label' => __( 'Confirm password', 'fabermind-forms' ), 'required' => true, 'autocomplete' => 'new-password', 'width' => 'half', 'same_as' => 'password' ),
 		);
 
 		if ( $settings['heard_from'] ) {
 			$fields['heard_from'] = array(
 				'type'    => 'select',
-				'label'   => __( 'Come ci hai conosciuti', 'fabermind-forms' ),
+				'label'   => __( 'How did you hear about us', 'fabermind-forms' ),
 				'options' => array_combine( $settings['heard_from'], $settings['heard_from'] ),
 			);
 		}
@@ -96,8 +96,8 @@ final class Fabermind_Forms {
 		$fields['privacy'] = array( 'type' => 'consent', 'label' => self::privacy_label(), 'required' => true );
 
 		return array(
-			'title'   => __( 'Registrati', 'fabermind-forms' ),
-			'button'  => __( 'Iscriviti', 'fabermind-forms' ),
+			'title'   => __( 'Register', 'fabermind-forms' ),
+			'button'  => __( 'Subscribe', 'fabermind-forms' ),
 			'fields'  => $fields,
 			'handler' => array( 'Fabermind_Forms_Handlers', 'register' ),
 			// Chi ha gia' fatto l'accesso non deve registrarsi di nuovo.
@@ -112,12 +112,12 @@ final class Fabermind_Forms {
 		$user = wp_get_current_user();
 
 		return array(
-			'title'   => __( 'Contattaci', 'fabermind-forms' ),
-			'button'  => __( 'Invia', 'fabermind-forms' ),
+			'title'   => __( 'Contact us', 'fabermind-forms' ),
+			'button'  => __( 'Send', 'fabermind-forms' ),
 			'fields'  => array(
-				'name'    => array( 'type' => 'text', 'label' => __( 'Nome', 'fabermind-forms' ), 'required' => true, 'autocomplete' => 'name', 'value' => $user->exists() ? trim( $user->first_name . ' ' . $user->last_name ) : '' ),
+				'name'    => array( 'type' => 'text', 'label' => __( 'Name', 'fabermind-forms' ), 'required' => true, 'autocomplete' => 'name', 'value' => $user->exists() ? trim( $user->first_name . ' ' . $user->last_name ) : '' ),
 				'email'   => array( 'type' => 'email', 'label' => __( 'Email', 'fabermind-forms' ), 'required' => true, 'autocomplete' => 'email', 'value' => $user->exists() ? $user->user_email : '' ),
-				'message' => array( 'type' => 'textarea', 'label' => __( 'Messaggio', 'fabermind-forms' ), 'required' => true, 'max' => 5000 ),
+				'message' => array( 'type' => 'textarea', 'label' => __( 'Message', 'fabermind-forms' ), 'required' => true, 'max' => 5000 ),
 				'privacy' => array( 'type' => 'consent', 'label' => self::privacy_label(), 'required' => true ),
 			),
 			'handler' => array( 'Fabermind_Forms_Handlers', 'contact' ),

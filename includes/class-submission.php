@@ -38,17 +38,17 @@ final class Fabermind_Forms_Submission {
 		$id   = (string) $request['form'];
 		$form = Fabermind_Forms::get( $id );
 		if ( ! $form ) {
-			return self::fail( array(), __( 'Modulo non trovato.', 'fabermind-forms' ), 404 );
+			return self::fail( array(), __( 'Form not found.', 'fabermind-forms' ), 404 );
 		}
 		$data = (array) $request->get_json_params();
 
 		// Invii automatici: campo trappola pieno, oppure modulo spedito troppo in fretta.
 		// Si risponde come se fosse andato tutto bene, cosi' chi ci prova non capisce perche' non funziona.
 		if ( '' !== trim( (string) ( $data['fm_website'] ?? '' ) ) || ! self::stamp_ok( (string) ( $data['fm_stamp'] ?? '' ) ) ) {
-			return new WP_REST_Response( array( 'ok' => true, 'message' => __( 'Grazie, abbiamo ricevuto il modulo.', 'fabermind-forms' ) ) );
+			return new WP_REST_Response( array( 'ok' => true, 'message' => __( 'Thanks, we have received the form.', 'fabermind-forms' ) ) );
 		}
 		if ( ! self::within_limit( $id ) ) {
-			return self::fail( array(), __( 'Troppi invii in poco tempo. Riprova fra qualche minuto.', 'fabermind-forms' ), 429 );
+			return self::fail( array(), __( 'Too many submissions in a short time. Try again in a few minutes.', 'fabermind-forms' ), 429 );
 		}
 
 		$values = array();
@@ -62,7 +62,7 @@ final class Fabermind_Forms_Submission {
 			}
 		}
 		if ( $errors ) {
-			return self::fail( $errors, __( 'Controlla i campi segnati.', 'fabermind-forms' ) );
+			return self::fail( $errors, __( 'Check the highlighted fields.', 'fabermind-forms' ) );
 		}
 
 		// Prima si registra chi ha scritto e cosa; poi si fa il resto (email, account...).
@@ -113,24 +113,24 @@ final class Fabermind_Forms_Submission {
 				return '';
 			}
 
-			return 'consent' === $field['type'] ? __( 'Per proseguire serve il tuo consenso.', 'fabermind-forms' ) : __( 'Questo campo è obbligatorio.', 'fabermind-forms' );
+			return 'consent' === $field['type'] ? __( 'To continue we need your consent.', 'fabermind-forms' ) : __( 'This field is required.', 'fabermind-forms' );
 		}
 		if ( 'email' === $field['type'] && ! is_email( $value ) ) {
-			return __( 'L\'indirizzo email non è valido.', 'fabermind-forms' );
+			return __( 'The email address is not valid.', 'fabermind-forms' );
 		}
 		if ( 'select' === $field['type'] && ! isset( $field['options'][ $value ] ) ) {
-			return __( 'Scegli una delle voci.', 'fabermind-forms' );
+			return __( 'Choose one of the options.', 'fabermind-forms' );
 		}
 		if ( isset( $field['min'] ) && mb_strlen( (string) $value ) < (int) $field['min'] ) {
 			/* translators: %d: numero minimo di caratteri */
-			return sprintf( __( 'Servono almeno %d caratteri.', 'fabermind-forms' ), (int) $field['min'] );
+			return sprintf( __( 'At least %d characters are needed.', 'fabermind-forms' ), (int) $field['min'] );
 		}
 		if ( isset( $field['max'] ) && mb_strlen( (string) $value ) > (int) $field['max'] ) {
 			/* translators: %d: numero massimo di caratteri */
-			return sprintf( __( 'Al massimo %d caratteri.', 'fabermind-forms' ), (int) $field['max'] );
+			return sprintf( __( 'At most %d characters.', 'fabermind-forms' ), (int) $field['max'] );
 		}
 		if ( isset( $field['same_as'] ) && $value !== ( $values[ $field['same_as'] ] ?? null ) ) {
-			return __( 'Le due password non coincidono.', 'fabermind-forms' );
+			return __( 'The two passwords don\'t match.', 'fabermind-forms' );
 		}
 
 		return '';

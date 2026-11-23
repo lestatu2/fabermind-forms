@@ -36,6 +36,8 @@ Queste regole le ha dettate Fabermind. Vengono prima di qualsiasi abitudine o gu
 - Restano di terzi solo WooCommerce, Mailster, PayPal e Satispay. Yoast SEO si sostituisce con
   `fabermind-seo` (deciso il 22/11/2026).
 - Nessuna copia dei modelli di WooCommerce: si usano gli agganci.
+- **Testi nel codice in inglese** (etichette, messaggi, email), anche nelle parti in React; l'italiano
+  e le altre lingue stanno nei file di traduzione (`languages/`). Ogni plugin carica i suoi.
 - **Niente costruttori generici** (di campi, di moduli, di filtri) da far usare al cliente:
   riempiono il sito di cose che nessuno usa. Campi, moduli e filtri sono strutturati e cuciti
   sul cliente, scritti nel codice. Le modifiche passano da Fabermind: di volta in volta si
