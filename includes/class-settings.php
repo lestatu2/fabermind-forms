@@ -136,12 +136,12 @@ final class Fabermind_Forms_Settings {
 									<option value="<?php echo esc_attr( $taxonomy->name ); ?>" <?php selected( $settings['brand_taxonomy'], $taxonomy->name ); ?>><?php echo esc_html( $taxonomy->labels->name . ' (' . $taxonomy->name . ')' ); ?></option>
 								<?php endforeach; ?>
 							</select>
-							<p class="description"><?php esc_html_e( 'New customers choose among the items of this taxonomy; they are subscribed to the Mailster lists with the same name.', 'fabermind-forms' ); ?></p>
+							<p class="description"><?php esc_html_e( 'New customers choose among the items of this taxonomy; they are subscribed to the newsletter lists with the same name.', 'fabermind-forms' ); ?></p>
 							<p><input type="text" class="large-text" name="<?php echo $name( 'brand_question' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" value="<?php echo esc_attr( $settings['brand_question'] ); ?>" aria-label="<?php esc_attr_e( 'Question text', 'fabermind-forms' ); ?>"></p>
-							<label><input type="checkbox" name="<?php echo $name( 'sync_lists' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" value="1" <?php checked( $settings['sync_lists'] ); ?>> <?php esc_html_e( 'Create a Mailster list for each new item', 'fabermind-forms' ); ?></label><br>
+							<label><input type="checkbox" name="<?php echo $name( 'sync_lists' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" value="1" <?php checked( $settings['sync_lists'] ); ?>> <?php esc_html_e( 'Create a newsletter list for each new item', 'fabermind-forms' ); ?></label><br>
 							<label><input type="checkbox" name="<?php echo $name( 'checkout_newsletter' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" value="1" <?php checked( $settings['checkout_newsletter'] ); ?>> <?php esc_html_e( 'At checkout: "Subscribe to the newsletter" checkbox, with these preferences', 'fabermind-forms' ); ?></label>
 							<?php if ( ! Fabermind_Forms_Mailster::available() ) : ?>
-								<p class="description" style="color:#b32d2e"><?php esc_html_e( 'Mailster is not active: preferences are saved in the customer profile but nobody is subscribed to the lists.', 'fabermind-forms' ); ?></p>
+								<p class="description" style="color:#b32d2e"><?php esc_html_e( 'The newsletter is off (Mailster or Email): preferences are saved in the customer profile but nobody is subscribed to the lists.', 'fabermind-forms' ); ?></p>
 							<?php endif; ?>
 						</td>
 					</tr>

@@ -122,7 +122,7 @@ final class Fabermind_Forms_Checkout {
 		$choices  = self::choices();
 		$allowed  = $choices ? array_map( 'intval', array_keys( (array) $choices['options'] ) ) : array();
 		$term_ids = array_values( array_intersect( array_map( 'intval', (array) ( $data['terms'] ?? array() ) ), $allowed ) );
-		Fabermind_Forms_Handlers::preferences( (int) $order->get_customer_id(), (string) $order->get_billing_email(), (string) $order->get_billing_first_name(), (string) $order->get_billing_last_name(), $term_ids, true );
+		Fabermind_Forms_Handlers::preferences( (int) $order->get_customer_id(), (string) $order->get_billing_email(), (string) $order->get_billing_first_name(), (string) $order->get_billing_last_name(), $term_ids, true, 'checkout', __( 'Subscribe to the newsletter', 'fabermind-forms' ) );
 		$order->update_meta_data( '_fabermind_newsletter', 1 );
 	}
 
@@ -165,7 +165,7 @@ final class Fabermind_Forms_Checkout {
 		$allowed  = $choices ? array_map( 'intval', array_keys( (array) $choices['options'] ) ) : array();
 		$term_ids = array_values( array_intersect( array_map( 'intval', (array) wp_unslash( $_POST[ self::FIELD ] ?? array() ) ), $allowed ) );
 		// phpcs:enable
-		Fabermind_Forms_Handlers::preferences( (int) $order->get_customer_id(), (string) $order->get_billing_email(), (string) $order->get_billing_first_name(), (string) $order->get_billing_last_name(), $term_ids, true );
+		Fabermind_Forms_Handlers::preferences( (int) $order->get_customer_id(), (string) $order->get_billing_email(), (string) $order->get_billing_first_name(), (string) $order->get_billing_last_name(), $term_ids, true, 'checkout', __( 'Subscribe to the newsletter', 'fabermind-forms' ) );
 		$order->update_meta_data( '_fabermind_newsletter', 1 );
 		$order->save();
 	}

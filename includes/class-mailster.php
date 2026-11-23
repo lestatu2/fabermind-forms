@@ -1,6 +1,7 @@
 <?php
 /**
- * Collegamento con Mailster (la newsletter resta sua). Se Mailster non c'e', qui non succede nulla.
+ * Collegamento con la newsletter: quella di fabermind-mail quando è accesa, altrimenti Mailster.
+ * Se non c'è né l'una né l'altro, qui non succede nulla.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -45,7 +46,7 @@ final class Fabermind_Forms_Mailster {
 					continue;
 				}
 				$users = array();
-				foreach ( (array) mailster( 'subscribers' )->query( array( 'lists' => (string) $list_id, 'fields' => 'all' ) ) as $subscriber ) {
+				foreach ( self::members( $list_id ) as $subscriber ) {
 					$subscriber = (object) $subscriber;
 					$user       = (int) ( $subscriber->wp_id ?? 0 );
 					if ( ! $user && ! empty( $subscriber->email ) ) {
@@ -69,8 +70,30 @@ final class Fabermind_Forms_Mailster {
 		return $map;
 	}
 
+	/** Gli iscritti attivi di una lista (oggetti con wp_id ed email). */
+	private static function members( int $list_id ): array {
+		if ( ! self::own() ) {
+			return (array) mailster( 'subscribers' )->query( array( 'lists' => (string) $list_id, 'fields' => 'all' ) );
+		}
+		$out = array();
+		for ( $page = 1;; $page++ ) {
+			$data = Fabermind_Mail_Subscribers::query( '', 'subscribed', $list_id, $page, 500 );
+			foreach ( $data['rows'] as $row ) {
+				$out[] = (object) array( 'wp_id' => (int) $row->user_id, 'email' => (string) $row->email );
+			}
+			if ( count( $data['rows'] ) < 500 ) {
+				return $out;
+			}
+		}
+	}
+
 	public static function available(): bool {
-		return function_exists( 'mailster' );
+		return self::own() || function_exists( 'mailster' );
+	}
+
+	/** La newsletter di fabermind-mail è accesa: si usa quella al posto di Mailster. */
+	private static function own(): bool {
+		return class_exists( 'Fabermind_Mail_Subscribers' ) && Fabermind_Mail_Subscribers::on();
 	}
 
 	/**
@@ -86,7 +109,15 @@ final class Fabermind_Forms_Mailster {
 			return;
 		}
 		$term = get_term( (int) $term_id, $taxonomy );
-		if ( ! $term instanceof WP_Term || isset( self::lists_by_name()[ $term->name ] ) ) {
+		if ( ! $term instanceof WP_Term ) {
+			return;
+		}
+		if ( self::own() ) {
+			Fabermind_Mail_Subscribers::list_id( $term->name, $term->taxonomy . ':' . $term->term_id );
+
+			return;
+		}
+		if ( isset( self::lists_by_name()[ $term->name ] ) ) {
 			return;
 		}
 		mailster( 'lists' )->add( array( 'name' => $term->name ) );
@@ -97,6 +128,13 @@ final class Fabermind_Forms_Mailster {
 	 */
 	private static function lists_by_name(): array {
 		$out = array();
+		if ( self::own() ) {
+			foreach ( Fabermind_Mail_Subscribers::lists() as $list ) {
+				$out[ (string) $list->name ] = (int) $list->id;
+			}
+
+			return $out;
+		}
 		foreach ( (array) mailster( 'lists' )->get() as $list ) {
 			$out[ (string) $list->name ] = (int) $list->ID;
 		}
@@ -110,9 +148,11 @@ final class Fabermind_Forms_Mailster {
 	 * Con $always la persona diventa iscritta anche se non ha scelto liste (casella "newsletter").
 	 *
 	 * @param string[] $list_names
+	 * @param string   $source  Da dove arriva (checkout, register, app): resta come prova del consenso.
+	 * @param string   $consent Il testo a cui ha detto sì.
 	 * @return bool Se l'iscrizione e' andata a buon fine.
 	 */
-	public static function subscribe( string $email, string $first_name, string $last_name, array $list_names, bool $always = false ): bool {
+	public static function subscribe( string $email, string $first_name, string $last_name, array $list_names, bool $always = false, string $source = 'form', string $consent = '' ): bool {
 		if ( ! self::available() || ( ! $list_names && ! $always ) ) {
 			return false;
 		}
@@ -121,6 +161,22 @@ final class Fabermind_Forms_Mailster {
 			return false;
 		}
 
+		if ( self::own() ) {
+			$id = Fabermind_Mail_Subscribers::subscribe(
+				$email,
+				array(
+					'first_name'   => $first_name,
+					'last_name'    => $last_name,
+					'source'       => $source,
+					'consent_text' => $consent,
+					'double_optin' => Fabermind_Mail_Subscribers::settings()['double_optin'],
+				),
+				array_keys( array_intersect_key( self::lists_by_name(), array_flip( $list_names ) ) )
+			);
+			delete_transient( self::CACHE );
+
+			return ! is_wp_error( $id );
+		}
 		// Come faceva il sito: iscrizione diretta (senza email di conferma), aggiornando chi c'e' gia'.
 		$subscriber_id = mailster( 'subscribers' )->add(
 			array(

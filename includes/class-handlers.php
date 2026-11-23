@@ -16,7 +16,7 @@ final class Fabermind_Forms_Handlers {
 	 *
 	 * @param array<int|string> $term_ids
 	 */
-	public static function preferences( int $user_id, string $email, string $first_name, string $last_name, array $term_ids, bool $always = false ): void {
+	public static function preferences( int $user_id, string $email, string $first_name, string $last_name, array $term_ids, bool $always = false, string $source = 'form', string $consent = '' ): void {
 		$term_ids = array_values( array_filter( array_map( 'intval', $term_ids ) ) );
 		if ( ! $term_ids && ! $always ) {
 			return;
@@ -35,7 +35,7 @@ final class Fabermind_Forms_Handlers {
 				$names_of_lists[] = $term->name;
 			}
 		}
-		Fabermind_Forms_Mailster::subscribe( $email, $first_name, $last_name, $names_of_lists, $always );
+		Fabermind_Forms_Mailster::subscribe( $email, $first_name, $last_name, $names_of_lists, $always, $source, $consent );
 	}
 
 	/**
@@ -82,7 +82,7 @@ final class Fabermind_Forms_Handlers {
 		}
 
 		// Preferenze per la newsletter: salvate nel profilo e passate a Mailster.
-		self::preferences( $user_id, $email, $names['first_name'], $names['last_name'], (array) ( $values['brands'] ?? array() ) );
+		self::preferences( $user_id, $email, $names['first_name'], $names['last_name'], (array) ( $values['brands'] ?? array() ), false, 'register', Fabermind_Forms_Settings::get()['brand_question'] );
 
 		// Accesso immediato.
 		if ( function_exists( 'wc_set_customer_auth_cookie' ) ) {

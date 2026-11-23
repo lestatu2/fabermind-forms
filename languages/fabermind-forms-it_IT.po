@@ -53,8 +53,8 @@ msgstr "Contattaci"
 msgid "Contacts"
 msgstr "Contatti"
 
-msgid "Create a Mailster list for each new item"
-msgstr "Crea in Mailster una lista per ogni voce nuova"
+msgid "Create a newsletter list for each new item"
+msgstr "Crea una lista della newsletter per ogni voce nuova"
 
 msgid "Delete"
 msgstr "Elimina"
@@ -95,8 +95,8 @@ msgstr "Cognome"
 msgid "Leave this field empty"
 msgstr "Lascia vuoto questo campo"
 
-msgid "Mailster is not active: preferences are saved in the customer profile but nobody is subscribed to the lists."
-msgstr "Mailster non è attivo: le preferenze vengono salvate nel profilo del cliente ma nessuno viene iscritto alle liste."
+msgid "The newsletter is off (Mailster or Email): preferences are saved in the customer profile but nobody is subscribed to the lists."
+msgstr "La newsletter è spenta (Mailster o Email): le preferenze vengono salvate nel profilo del cliente ma nessuno viene iscritto alle liste."
 
 msgid "Mark as unread"
 msgstr "Segna come da leggere"
@@ -122,8 +122,8 @@ msgstr "I messaggi arrivano a"
 msgid "Name"
 msgstr "Nome"
 
-msgid "New customers choose among the items of this taxonomy; they are subscribed to the Mailster lists with the same name."
-msgstr "Chi si registra sceglie fra le voci di questa classificazione; viene iscritto alle liste Mailster con lo stesso nome."
+msgid "New customers choose among the items of this taxonomy; they are subscribed to the newsletter lists with the same name."
+msgstr "Chi si registra sceglie fra le voci di questa classificazione; viene iscritto alle liste della newsletter con lo stesso nome."
 
 msgid "Newsletter preferences"
 msgstr "Preferenze per la newsletter"
