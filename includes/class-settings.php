@@ -111,50 +111,32 @@ final class Fabermind_Forms_Settings {
 		$settings   = self::get();
 		$name       = static fn( string $key ): string => esc_attr( self::OPTION . "[$key]" );
 		$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
-		?>
-		<div class="wrap">
-			<h1><?php esc_html_e( 'Fabermind forms', 'fabermind-forms' ); ?></h1>
-			<p><?php esc_html_e( 'Shortcode: [fabermind_form id="register"] for registration, [fabermind_form id="contact"] for contacts.', 'fabermind-forms' ); ?></p>
-			<form method="post" action="options.php">
-				<?php settings_fields( 'fabermind_forms' ); ?>
-				<h2><?php esc_html_e( 'Contacts', 'fabermind-forms' ); ?></h2>
-				<table class="form-table" role="presentation">
-					<tr>
-						<th scope="row"><label for="fm-contact-email"><?php esc_html_e( 'Messages go to', 'fabermind-forms' ); ?></label></th>
-						<td><input type="email" class="regular-text" id="fm-contact-email" name="<?php echo $name( 'contact_email' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" value="<?php echo esc_attr( $settings['contact_email'] ); ?>" placeholder="<?php echo esc_attr( (string) get_option( 'admin_email' ) ); ?>"></td>
-					</tr>
-				</table>
-				<h2><?php esc_html_e( 'Registration', 'fabermind-forms' ); ?></h2>
-				<table class="form-table" role="presentation">
-					<tr>
-						<th scope="row"><label for="fm-heard"><?php esc_html_e( '"How did you hear about us": answers', 'fabermind-forms' ); ?></label></th>
-						<td>
-							<textarea class="large-text" rows="7" id="fm-heard" name="<?php echo $name( 'heard_from' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"><?php echo esc_textarea( implode( "\n", $settings['heard_from'] ) ); ?></textarea>
-							<p class="description"><?php esc_html_e( 'One per line. Empty: the question doesn\'t appear.', 'fabermind-forms' ); ?></p>
-						</td>
-					</tr>
-					<tr>
-						<th scope="row"><label for="fm-tax"><?php esc_html_e( 'Newsletter preferences', 'fabermind-forms' ); ?></label></th>
-						<td>
-							<select id="fm-tax" name="<?php echo $name( 'brand_taxonomy' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>">
-								<option value=""><?php esc_html_e( '— Don\'t ask —', 'fabermind-forms' ); ?></option>
-								<?php foreach ( $taxonomies as $taxonomy ) : ?>
-									<option value="<?php echo esc_attr( $taxonomy->name ); ?>" <?php selected( $settings['brand_taxonomy'], $taxonomy->name ); ?>><?php echo esc_html( $taxonomy->labels->name . ' (' . $taxonomy->name . ')' ); ?></option>
-								<?php endforeach; ?>
-							</select>
-							<p class="description"><?php esc_html_e( 'New customers choose among the items of this taxonomy; they are subscribed to the newsletter lists with the same name.', 'fabermind-forms' ); ?></p>
-							<p><input type="text" class="large-text" name="<?php echo $name( 'brand_question' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" value="<?php echo esc_attr( $settings['brand_question'] ); ?>" aria-label="<?php esc_attr_e( 'Question text', 'fabermind-forms' ); ?>"></p>
-							<label><input type="checkbox" name="<?php echo $name( 'sync_lists' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" value="1" <?php checked( $settings['sync_lists'] ); ?>> <?php esc_html_e( 'Create a newsletter list for each new item', 'fabermind-forms' ); ?></label><br>
-							<label><input type="checkbox" name="<?php echo $name( 'checkout_newsletter' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" value="1" <?php checked( $settings['checkout_newsletter'] ); ?>> <?php esc_html_e( 'At checkout: "Subscribe to the newsletter" checkbox, with these preferences', 'fabermind-forms' ); ?></label>
-							<?php if ( ! Fabermind_Forms_Mailster::available() ) : ?>
-								<p class="description" style="color:#b32d2e"><?php esc_html_e( 'The newsletter is off (Mailster or Email): preferences are saved in the customer profile but nobody is subscribed to the lists.', 'fabermind-forms' ); ?></p>
-							<?php endif; ?>
-						</td>
-					</tr>
-				</table>
-				<?php echo Fabermind_Forms_Ui::submit(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-			</form>
-		</div>
-		<?php
+		echo '<div class="wrap">' . Fabermind_Forms_Ui::open( 'div', 'flex max-w-4xl flex-col gap-6 py-4' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo '<div class="flex flex-col gap-1"><h1 class="text-2xl font-semibold">' . esc_html__( 'Fabermind forms', 'fabermind-forms' ) . '</h1>';
+		echo '<p class="text-sm text-base-content/70">' . esc_html__( 'Shortcode: [fabermind_form id="register"] for registration, [fabermind_form id="contact"] for contacts.', 'fabermind-forms' ) . '</p></div>';
+		echo '<form method="post" action="options.php" class="flex flex-col gap-6">';
+		settings_fields( 'fabermind_forms' );
+
+		echo '<div class="card card-border bg-base-100"><div class="card-body gap-4"><h2 class="card-title">' . esc_html__( 'Contacts', 'fabermind-forms' ) . '</h2>';
+		echo '<fieldset class="fieldset"><legend class="fieldset-legend">' . esc_html__( 'Messages go to', 'fabermind-forms' ) . '</legend><input type="email" class="input w-full max-w-md" name="' . $name( 'contact_email' ) . '" value="' . esc_attr( $settings['contact_email'] ) . '" placeholder="' . esc_attr( (string) get_option( 'admin_email' ) ) . '"></fieldset>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo '</div></div>';
+
+		echo '<div class="card card-border bg-base-100"><div class="card-body gap-4"><h2 class="card-title">' . esc_html__( 'Registration', 'fabermind-forms' ) . '</h2>';
+		echo '<fieldset class="fieldset"><legend class="fieldset-legend">' . esc_html__( '"How did you hear about us": answers', 'fabermind-forms' ) . '</legend><textarea class="textarea w-full" rows="7" name="' . $name( 'heard_from' ) . '">' . esc_textarea( implode( "\n", $settings['heard_from'] ) ) . '</textarea><p class="label whitespace-normal">' . esc_html__( 'One per line. Empty: the question doesn\'t appear.', 'fabermind-forms' ) . '</p></fieldset>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo '<fieldset class="fieldset gap-2"><legend class="fieldset-legend">' . esc_html__( 'Newsletter preferences', 'fabermind-forms' ) . '</legend><select class="select w-full max-w-md" name="' . $name( 'brand_taxonomy' ) . '"><option value="">' . esc_html__( '— Don\'t ask —', 'fabermind-forms' ) . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		foreach ( $taxonomies as $taxonomy ) {
+			echo '<option value="' . esc_attr( $taxonomy->name ) . '"' . selected( $settings['brand_taxonomy'], $taxonomy->name, false ) . '>' . esc_html( $taxonomy->labels->name . ' (' . $taxonomy->name . ')' ) . '</option>';
+		}
+		echo '</select><p class="label whitespace-normal">' . esc_html__( 'New customers choose among the items of this taxonomy; they are subscribed to the newsletter lists with the same name.', 'fabermind-forms' ) . '</p>';
+		echo '<input type="text" class="input w-full" name="' . $name( 'brand_question' ) . '" value="' . esc_attr( $settings['brand_question'] ) . '" aria-label="' . esc_attr__( 'Question text', 'fabermind-forms' ) . '"></fieldset>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		foreach ( array( 'sync_lists' => __( 'Create a newsletter list for each new item', 'fabermind-forms' ), 'checkout_newsletter' => __( 'At checkout: "Subscribe to the newsletter" checkbox, with these preferences', 'fabermind-forms' ) ) as $key => $label ) {
+			echo '<label class="flex items-center gap-3"><input type="checkbox" class="toggle toggle-primary" name="' . $name( $key ) . '" value="1"' . checked( $settings[ $key ], true, false ) . '><span>' . esc_html( $label ) . '</span></label>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+		if ( ! Fabermind_Forms_Mailster::available() ) {
+			echo '<div role="alert" class="alert alert-warning alert-soft text-sm"><span>' . esc_html__( 'The newsletter is off (Mailster or Email): preferences are saved in the customer profile but nobody is subscribed to the lists.', 'fabermind-forms' ) . '</span></div>';
+		}
+		echo '</div></div>';
+		echo '<div><button type="submit" class="btn btn-primary">' . esc_html__( 'Save Changes' ) . '</button></div>'; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- testo di WordPress.
+		echo '</form></div></div>';
 	}
 }

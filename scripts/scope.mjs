@@ -37,7 +37,10 @@ function scopeSelector( selector ) {
 		return `${ SCOPE }, ${ SCOPE } *`;
 	}
 
-	return `${ SCOPE } ${ sel }`;
+	// Anche sull'elemento stesso che porta la classe: le classi messe li' (larghezza, spazi, flex)
+	// valgono come quelle degli elementi dentro. Solo se il selettore comincia da una classe, un
+	// attributo o una pseudo-classe (".fm-ui-x.flex"); "a" o "h2" restano solo dentro.
+	return /^[.[:]/.test( sel ) ? `${ SCOPE } ${ sel }, ${ SCOPE }${ sel }` : `${ SCOPE } ${ sel }`;
 }
 
 const scope = {

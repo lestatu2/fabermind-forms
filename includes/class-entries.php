@@ -142,7 +142,7 @@ final class Fabermind_Forms_Entries {
 	public static function menu(): void {
 		$unread = self::unread();
 		$label  = __( 'Messages', 'fabermind-forms' ) . ( $unread ? ' <span class="awaiting-mod">' . $unread . '</span>' : '' );
-		add_menu_page( __( 'Messages from forms', 'fabermind-forms' ), $label, 'manage_options', self::PAGE, array( self::class, 'page' ), 'dashicons-email-alt', 26 );
+		add_menu_page( __( 'Messages from forms', 'fabermind-forms' ), $label, 'manage_options', self::PAGE, array( self::class, 'page' ), 'dashicons-format-chat', 26 );
 	}
 
 	/** @param array<string,mixed> $args */
@@ -176,39 +176,40 @@ final class Fabermind_Forms_Entries {
 		foreach ( Fabermind_Forms::all() as $key => $def ) {
 			$forms[ $key ] = (string) ( $def['title'] ?? $key );
 		}
-		echo '<div class="wrap"><h1>' . esc_html__( 'Messages from forms', 'fabermind-forms' ) . '</h1>';
+		echo '<div class="wrap">' . Fabermind_Forms_Ui::open( 'div', 'flex flex-col gap-6 py-4' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		if ( $id ) {
 			$entry = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . self::table() . ' WHERE id = %d', $id ) );
-			echo '<p><a href="' . esc_url( self::url() ) . '">&larr; ' . esc_html__( 'All messages', 'fabermind-forms' ) . '</a></p>';
+			echo '<div><a class="btn btn-ghost btn-sm" href="' . esc_url( self::url() ) . '">' . Fabermind_Forms_Ui::icon( 'chevron-left' ) . esc_html__( 'All messages', 'fabermind-forms' ) . '</a></div>'; // phpcs:ignore WordPress.Security.EscapeOutput
+			echo '<h1 class="text-2xl font-semibold">' . esc_html__( 'Messages from forms', 'fabermind-forms' ) . '</h1>';
 			if ( ! $entry ) {
-				echo '<p>' . esc_html__( 'Message not found.', 'fabermind-forms' ) . '</p></div>';
+				echo '<p>' . esc_html__( 'Message not found.', 'fabermind-forms' ) . '</p></div></div>';
 
 				return;
 			}
 			$wpdb->update( self::table(), array( 'is_read' => 1 ), array( 'id' => $id ) );
-			echo '<div class="postbox" style="padding:4px 16px 16px;max-width:860px"><table class="form-table" role="presentation"><tbody>';
-			echo '<tr><th>' . esc_html__( 'Form', 'fabermind-forms' ) . '</th><td>' . esc_html( $forms[ $entry->form ] ?? $entry->form ) . '</td></tr>';
-			echo '<tr><th>' . esc_html__( 'Received on', 'fabermind-forms' ) . '</th><td>' . esc_html( wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $entry->created_at . ' UTC' ) ) ) . '</td></tr>';
+			$line = static function ( string $label, string $html ): void {
+				echo '<div class="grid gap-1 border-b border-base-300 py-3 last:border-0 sm:grid-cols-[12rem_1fr]"><dt class="font-medium text-base-content/70">' . esc_html( $label ) . '</dt><dd class="break-words">' . $html . '</dd></div>'; // phpcs:ignore WordPress.Security.EscapeOutput
+			};
+			echo '<div class="card card-border max-w-4xl bg-base-100"><div class="card-body gap-4"><dl>';
+			$line( __( 'Form', 'fabermind-forms' ), esc_html( $forms[ $entry->form ] ?? $entry->form ) );
+			$line( __( 'Received on', 'fabermind-forms' ), esc_html( wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $entry->created_at . ' UTC' ) ) ) );
 			if ( (int) $entry->user_id ) {
-				echo '<tr><th>' . esc_html__( 'Account', 'fabermind-forms' ) . '</th><td><a href="' . esc_url( (string) get_edit_user_link( (int) $entry->user_id ) ) . '">' . esc_html( (string) get_userdata( (int) $entry->user_id )->display_name ) . '</a></td></tr>';
+				$line( __( 'Account', 'fabermind-forms' ), '<a class="link link-hover" href="' . esc_url( (string) get_edit_user_link( (int) $entry->user_id ) ) . '">' . esc_html( (string) get_userdata( (int) $entry->user_id )->display_name ) . '</a>' );
 			}
 			foreach ( (array) json_decode( (string) $entry->data, true ) as $row ) {
-				$is_mail = is_email( $row['value'] );
-				echo '<tr><th>' . esc_html( $row['label'] ) . '</th><td>' . ( $is_mail ? '<a href="mailto:' . esc_attr( $row['value'] ) . '">' . esc_html( $row['value'] ) . '</a>' : nl2br( esc_html( $row['value'] ) ) ) . '</td></tr>';
+				$line( (string) $row['label'], is_email( $row['value'] ) ? '<a class="link link-hover" href="mailto:' . esc_attr( $row['value'] ) . '">' . esc_html( $row['value'] ) . '</a>' : nl2br( esc_html( $row['value'] ) ) );
 			}
 			if ( '' !== $entry->outcome && 'ok' !== $entry->outcome ) {
-				echo '<tr><th>' . esc_html__( 'Outcome', 'fabermind-forms' ) . '</th><td style="color:#b32d2e">' . esc_html( $entry->outcome ) . '</td></tr>';
+				$line( __( 'Outcome', 'fabermind-forms' ), '<span class="text-error">' . esc_html( $entry->outcome ) . '</span>' );
 			}
-			echo '</tbody></table>';
-			echo Fabermind_Forms_Ui::open( 'div', 'flex flex-wrap gap-2 mt-4' ); // phpcs:ignore WordPress.Security.EscapeOutput
+			echo '</dl><div class="flex flex-wrap gap-2">';
 			if ( $entry->email ) {
 				echo '<a class="btn btn-primary btn-sm" href="mailto:' . esc_attr( $entry->email ) . '">' . Fabermind_Forms_Ui::icon( 'reply' ) . esc_html__( 'Reply', 'fabermind-forms' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput
 			}
 			echo '<a class="btn btn-sm" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'action' => 'fabermind_forms_entry', 'do' => 'unread', 'entry' => $id ), admin_url( 'admin-post.php' ) ), 'fabermind-forms-entry' ) ) . '">' . Fabermind_Forms_Ui::icon( 'mail' ) . esc_html__( 'Mark as unread', 'fabermind-forms' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput
 			echo '<a class="btn btn-sm btn-ghost text-error" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'action' => 'fabermind_forms_entry', 'do' => 'delete', 'entry' => $id ), admin_url( 'admin-post.php' ) ), 'fabermind-forms-entry' ) ) . '">' . Fabermind_Forms_Ui::icon( 'trash-2' ) . esc_html__( 'Delete', 'fabermind-forms' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput
-			echo '</div>';
-			echo '</div></div>';
+			echo '</div></div></div></div></div>';
 
 			return;
 		}
@@ -218,36 +219,37 @@ final class Fabermind_Forms_Entries {
 		$rows  = $wpdb->get_results( 'SELECT * FROM ' . self::table() . $where . $wpdb->prepare( ' ORDER BY id DESC LIMIT %d OFFSET %d', self::PER_PAGE, ( $paged - 1 ) * self::PER_PAGE ) );
 		// phpcs:enable
 
-		echo '<ul class="subsubsub"><li><a href="' . esc_url( self::url() ) . '" class="' . ( '' === $form ? 'current' : '' ) . '">' . esc_html__( 'All', 'fabermind-forms' ) . '</a></li>';
+		echo '<h1 class="text-2xl font-semibold">' . esc_html__( 'Messages from forms', 'fabermind-forms' ) . '</h1>';
+		echo '<div role="tablist" class="tabs tabs-border"><a role="tab" class="tab' . ( '' === $form ? ' tab-active' : '' ) . '" href="' . esc_url( self::url() ) . '">' . esc_html__( 'All', 'fabermind-forms' ) . '</a>';
 		foreach ( $forms as $key => $title ) {
-			echo '<li> | <a href="' . esc_url( self::url( array( 'form' => $key ) ) ) . '" class="' . ( $form === $key ? 'current' : '' ) . '">' . esc_html( $title ) . '</a></li>';
+			echo '<a role="tab" class="tab' . ( $form === $key ? ' tab-active' : '' ) . '" href="' . esc_url( self::url( array( 'form' => $key ) ) ) . '">' . esc_html( $title ) . '</a>';
 		}
-		echo '</ul><table class="wp-list-table widefat striped"><thead><tr>';
+		echo '</div><div class="card card-border bg-base-100"><div class="overflow-x-auto"><table class="table"><thead><tr>';
 		foreach ( array( __( 'From', 'fabermind-forms' ), __( 'Email', 'fabermind-forms' ), __( 'Form', 'fabermind-forms' ), __( 'Received on', 'fabermind-forms' ) ) as $head ) {
 			echo '<th>' . esc_html( $head ) . '</th>';
 		}
 		echo '</tr></thead><tbody>';
 		if ( ! $rows ) {
-			echo '<tr><td colspan="4">' . esc_html__( 'No messages.', 'fabermind-forms' ) . '</td></tr>';
+			echo '<tr><td colspan="4" class="text-base-content/70">' . esc_html__( 'No messages.', 'fabermind-forms' ) . '</td></tr>';
 		}
 		foreach ( (array) $rows as $entry ) {
-			$bold = (int) $entry->is_read ? '' : 'font-weight:600';
-			echo '<tr><td style="' . esc_attr( $bold ) . '"><a href="' . esc_url( self::url( array( 'entry' => $entry->id ) ) ) . '">' . esc_html( $entry->name ?: __( '(no name)', 'fabermind-forms' ) ) . '</a></td>';
+			// Non letti in grassetto, come nella posta.
+			echo '<tr class="hover:bg-base-200' . ( (int) $entry->is_read ? '' : ' font-semibold' ) . '"><td><a class="link link-hover" href="' . esc_url( self::url( array( 'entry' => $entry->id ) ) ) . '">' . esc_html( $entry->name ?: __( '(no name)', 'fabermind-forms' ) ) . '</a></td>';
 			echo '<td>' . esc_html( $entry->email ) . '</td><td>' . esc_html( $forms[ $entry->form ] ?? $entry->form ) . '</td>';
 			echo '<td>' . esc_html( wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $entry->created_at . ' UTC' ) ) ) . '</td></tr>';
 		}
-		echo '</tbody></table>';
+		echo '</tbody></table></div></div>';
 		if ( $total > self::PER_PAGE ) {
-			echo Fabermind_Forms_Ui::open( 'p', 'flex gap-2 mt-4' ); // phpcs:ignore WordPress.Security.EscapeOutput
+			echo '<div class="join">';
 			if ( $paged > 1 ) {
-				echo '<a class="btn btn-sm btn-square" aria-label="' . esc_attr__( 'Previous page', 'fabermind-forms' ) . '" href="' . esc_url( self::url( array( 'form' => $form, 'paged' => $paged - 1 ) ) ) . '">' . Fabermind_Forms_Ui::icon( 'chevron-left' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput
+				echo '<a class="btn btn-sm btn-square join-item" aria-label="' . esc_attr__( 'Previous page', 'fabermind-forms' ) . '" href="' . esc_url( self::url( array( 'form' => $form, 'paged' => $paged - 1 ) ) ) . '">' . Fabermind_Forms_Ui::icon( 'chevron-left' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput
 			}
 			if ( $paged * self::PER_PAGE < $total ) {
-				echo '<a class="btn btn-sm btn-square" aria-label="' . esc_attr__( 'Next page', 'fabermind-forms' ) . '" href="' . esc_url( self::url( array( 'form' => $form, 'paged' => $paged + 1 ) ) ) . '">' . Fabermind_Forms_Ui::icon( 'chevron-right' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput
+				echo '<a class="btn btn-sm btn-square join-item" aria-label="' . esc_attr__( 'Next page', 'fabermind-forms' ) . '" href="' . esc_url( self::url( array( 'form' => $form, 'paged' => $paged + 1 ) ) ) . '">' . Fabermind_Forms_Ui::icon( 'chevron-right' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput
 			}
-			echo '</p>';
+			echo '</div>';
 		}
-		echo '</div>';
+		echo '</div></div>';
 	}
 
 	// ---------- Privacy: cancellazione dei dati di una persona ----------
