@@ -68,17 +68,23 @@ final class Fabermind_Forms_Settings {
 		return is_email( $email ) ? $email : (string) get_option( 'admin_email' );
 	}
 
+	/** Le impostazioni dei moduli sono riservate a Fabermind (fabermind-admin); i messaggi no. */
+	public static function capability(): string {
+		return (string) apply_filters( 'fabermind_setup_capability', 'manage_options' );
+	}
+
 	public static function menu(): void {
 		add_options_page(
 			__( 'Fabermind forms', 'fabermind-forms' ),
 			__( 'Fabermind forms', 'fabermind-forms' ),
-			'manage_options',
+			self::capability(),
 			'fabermind-forms',
 			array( self::class, 'page' )
 		);
 	}
 
 	public static function register(): void {
+		add_filter( 'option_page_capability_fabermind_forms', array( self::class, 'capability' ) );
 		register_setting(
 			'fabermind_forms',
 			self::OPTION,
